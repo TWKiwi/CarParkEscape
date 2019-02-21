@@ -10,6 +10,7 @@ namespace CarParkEscape
         private string _car = "2";
         private string _staircase = "1";
         private int _parkSize;
+        private int _carPosition;
 
         public string[] Escape(int[,] carPark)
         {
@@ -22,16 +23,17 @@ namespace CarParkEscape
                 if (NeedGoDown(enumerator.Current))
                 {
                     // 2樓以上
-                    var carPosition = Array.FindIndex(enumerator.Current, x => x == _car);
+                    _carPosition = Array.FindIndex(enumerator.Current, x => x == _car);
                     var staircasePosition = Array.FindIndex(enumerator.Current, x => x == _staircase);
-                    output.Add($"L{Math.Abs(carPosition - staircasePosition)}");
+                    output.Add($"L{Math.Abs(_carPosition - staircasePosition)}");
                     output.Add($"D1");
+                    _carPosition = staircasePosition;
                 }
                 else if (NeedGoOut(enumerator.Current))
                 {
                     //出去
                     var position = Array.FindIndex(enumerator.Current, x => x == _car);
-                    position = position == -1 ? 0 : position;
+                    position = position == -1 ? _carPosition : position;
                     output.Add($"R{_parkSize - position - 1}");
                 }
                 // 車不在那層沒有必要做判斷
