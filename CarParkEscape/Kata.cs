@@ -34,11 +34,20 @@ namespace CarParkEscape
                 {
                     //出去
                     var position = GetCarPosition(enumerator);
-                    output.Add($"R{_parkSize - position - 1}");
+                    GoEscape(output, position);
                 }
                 // 車不在那層沒有必要做判斷
             }
             return output.ToArray();
+        }
+
+        private void GoEscape(List<string> output, int position)
+        {
+            var move = _parkSize - position - 1;
+            if (move != 0)
+            {
+                output.Add($"R{move}");
+            }
         }
 
         private static void GoDown(List<string> output)
