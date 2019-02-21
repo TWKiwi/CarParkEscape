@@ -53,5 +53,15 @@ namespace CarParkEscape
             excepted.ShouldEqual(result);
         }
 
+        [TestMethod]
+        public void EscapeFromSecondFloor_Ver3()
+        {
+            var result = new Kata().Escape(
+                new[,] { { 2, 1, 0, 0, 0 },
+                    { 0, 0, 0, 0, 0 } });
+            var excepted = new[] { "R1", "D1", "R3" }.ToExpectedObject();
+            excepted.ShouldEqual(result);
+        }
+
     }
 }
