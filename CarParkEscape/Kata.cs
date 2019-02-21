@@ -23,7 +23,6 @@ namespace CarParkEscape
             {
                 if (NeedGoDown(enumerator.Current))
                 {
-                    // 2樓以上
                     _carPosition = GetCarPosition(enumerator);
                     var staircasePosition = GetStaircasePosition(enumerator);
                     GoStaircase(output, staircasePosition);
@@ -33,11 +32,9 @@ namespace CarParkEscape
                 }
                 else if (NeedGoOut(enumerator.Current))
                 {
-                    //出去
                     var position = GetCarPosition(enumerator);
                     GoEscape(output, position);
                 }
-                // 車不在那層沒有必要做判斷
             }
             return output.ToArray();
         }
@@ -66,7 +63,7 @@ namespace CarParkEscape
         {
             if (output.Last().StartsWith("D"))
             {
-                var i = int.Parse(output.Last()[output.Count - 1].ToString());
+                var i = int.Parse(output.Last()[output.Last().Length - 1].ToString());
                 ++i;
                 output[output.Count- 1] = "D" + i;
             }

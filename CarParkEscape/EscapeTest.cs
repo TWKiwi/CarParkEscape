@@ -125,6 +125,5 @@ namespace CarParkEscape
             var excepted = new[] { "R3", "D3" }.ToExpectedObject();
             excepted.ShouldEqual(kata.escape(carpark));
         }
-
     }
 }
