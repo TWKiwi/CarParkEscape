@@ -46,6 +46,7 @@ namespace CarParkEscape
                 {
                     count = 0;
                     parkingData.Add(tempFloorData);
+                    tempFloorData = new string[_parkSize];
                 }
 
                 tempFloorData[count] = enumerator.Current.ToString();
