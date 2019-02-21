@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 
 namespace CarParkEscape
 {
@@ -26,8 +27,8 @@ namespace CarParkEscape
                     // 2樓以上
                     _carPosition = GetCarPosition(enumerator);
                     var staircasePosition = GetStaircasePosition(enumerator);
-                    output.Add($"{TurnRightOrLeft(_carPosition - staircasePosition)}{Math.Abs(_carPosition - staircasePosition)}");
-                    output.Add($"D1");
+                    GoStaircase(output, staircasePosition);
+                    GoDown(output);
                     _carPosition = staircasePosition;
                     _carMoving = true;
                 }
@@ -40,6 +41,20 @@ namespace CarParkEscape
                 // 車不在那層沒有必要做判斷
             }
             return output.ToArray();
+        }
+
+        private static void GoDown(List<string> output)
+        {
+            output.Add($"D1");
+        }
+
+        private void GoStaircase(List<string> output, int staircasePosition)
+        {
+            var move = Math.Abs(_carPosition - staircasePosition);
+            if (move != 0)
+            {
+                output.Add($"{TurnRightOrLeft(_carPosition - staircasePosition)}{move}");
+            }
         }
 
         private int GetStaircasePosition(List<string[]>.Enumerator enumerator)
