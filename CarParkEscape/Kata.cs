@@ -25,7 +25,7 @@ namespace CarParkEscape
                     // 2樓以上
                     _carPosition = Array.FindIndex(enumerator.Current, x => x == _car);
                     var staircasePosition = Array.FindIndex(enumerator.Current, x => x == _staircase);
-                    output.Add($"L{Math.Abs(_carPosition - staircasePosition)}");
+                    output.Add($"{TurnRightOrLeft(_carPosition - staircasePosition)}{Math.Abs(_carPosition - staircasePosition)}");
                     output.Add($"D1");
                     _carPosition = staircasePosition;
                 }
@@ -39,6 +39,11 @@ namespace CarParkEscape
                 // 車不在那層沒有必要做判斷
             }
             return output.ToArray();
+        }
+
+        private string TurnRightOrLeft(int i)
+        {
+            return i > 0 ? "L" : "R";
         }
 
         private List<string[]> arrayProcesser(int[,] carPark)
