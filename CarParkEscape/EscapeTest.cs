@@ -104,7 +104,7 @@ namespace CarParkEscape
         }
 
         [TestMethod]
-        public void TestFromCodeWars()
+        public void TestFromCodeWars_Ver1()
         {
             Kata kata = new Kata();
             int[,] carpark = new int[,] { { 2, 0, 0, 1, 0 },

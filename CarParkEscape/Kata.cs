@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 
 namespace CarParkEscape
 {
@@ -14,7 +12,7 @@ namespace CarParkEscape
         private int _carPosition;
         public bool _carMoving = false;
 
-        public string[] Escape(int[,] carPark)
+        public string[] escape(int[,] carPark)
         {
             _parkSize = carPark.GetLength(1);
             var output = new List<string> { };
@@ -45,7 +43,16 @@ namespace CarParkEscape
 
         private static void GoDown(List<string> output)
         {
-            output.Add($"D1");
+            if (output.Last().StartsWith("D"))
+            {
+                var i = int.Parse(output.Last()[output.Last().Length - 1].ToString());
+                ++i;
+                output[output.Last().Length - 1] = "D" + i;
+            }
+            else
+            {
+                output.Add($"D1");
+            }
         }
 
         private void GoStaircase(List<string> output, int staircasePosition)
