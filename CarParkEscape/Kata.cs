@@ -11,6 +11,7 @@ namespace CarParkEscape
         private string _staircase = "1";
         private int _parkSize;
         private int _carPosition;
+        public bool _carMoving = false;
 
         public string[] Escape(int[,] carPark)
         {
@@ -23,22 +24,34 @@ namespace CarParkEscape
                 if (NeedGoDown(enumerator.Current))
                 {
                     // 2樓以上
-                    _carPosition = Array.FindIndex(enumerator.Current, x => x == _car);
-                    var staircasePosition = Array.FindIndex(enumerator.Current, x => x == _staircase);
+                    _carPosition = GetCarPosition(enumerator);
+                    var staircasePosition = GetStaircasePosition(enumerator);
                     output.Add($"{TurnRightOrLeft(_carPosition - staircasePosition)}{Math.Abs(_carPosition - staircasePosition)}");
                     output.Add($"D1");
                     _carPosition = staircasePosition;
+                    _carMoving = true;
                 }
                 else if (NeedGoOut(enumerator.Current))
                 {
                     //出去
-                    var position = Array.FindIndex(enumerator.Current, x => x == _car);
-                    position = position == -1 ? _carPosition : position;
+                    var position = GetCarPosition(enumerator);
                     output.Add($"R{_parkSize - position - 1}");
                 }
                 // 車不在那層沒有必要做判斷
             }
             return output.ToArray();
+        }
+
+        private int GetStaircasePosition(List<string[]>.Enumerator enumerator)
+        {
+            return Array.FindIndex(enumerator.Current, x => x == _staircase);
+        }
+
+        private int GetCarPosition(List<string[]>.Enumerator enumerator)
+        {
+            return Array.FindIndex(enumerator.Current, x => x == _car) == -1
+                ? _carPosition
+                : Array.FindIndex(enumerator.Current, x => x == _car);
         }
 
         private string TurnRightOrLeft(int i)
@@ -76,7 +89,7 @@ namespace CarParkEscape
         private bool NeedGoDown(string[] data)
         {
             return data.Contains(_staircase) &&
-                   data.Contains(_car);
+                   (data.Contains(_car) || _carMoving);
         }
     }
 }
