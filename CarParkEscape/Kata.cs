@@ -17,6 +17,7 @@ namespace CarParkEscape
             _parkSize = carPark.GetLength(1);
             var output = new List<string> { };
             var parkingData = arrayProcesser(carPark);
+            Print2DArray(carPark);
             var enumerator = parkingData.GetEnumerator();
             while (enumerator.MoveNext())
             {
@@ -40,6 +41,17 @@ namespace CarParkEscape
             }
             return output.ToArray();
         }
+        public static void Print2DArray<T>(T[,] matrix)
+        {
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    Console.Write(matrix[i, j] + "\t");
+                }
+                Console.WriteLine();
+            }
+        }
 
         private void GoEscape(List<string> output, int position)
         {
@@ -54,9 +66,9 @@ namespace CarParkEscape
         {
             if (output.Last().StartsWith("D"))
             {
-                var i = int.Parse(output.Last()[output.Last().Length - 1].ToString());
+                var i = int.Parse(output.Last()[output.Count - 1].ToString());
                 ++i;
-                output[output.Last().Length - 1] = "D" + i;
+                output[output.Count- 1] = "D" + i;
             }
             else
             {
