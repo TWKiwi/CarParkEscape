@@ -10,46 +10,33 @@ namespace CarParkEscape
         private string _staircase = "1";
         private int _parkSize;
         private int _carPosition;
-        public bool _carMoving = false;
+        public bool CarMoving;
+        private List<string> _output = new List<string> { };
 
         public string[] escape(int[,] carPark)
         {
             _parkSize = carPark.GetLength(1);
-            var output = new List<string> { };
-            var parkingData = arrayProcesser(carPark);
-            Print2DArray(carPark);
+            var parkingData = ArrayProcessor(carPark);
             var enumerator = parkingData.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                if (NeedGoDown(enumerator.Current))
+                if (ShouldGoDown(enumerator.Current))
                 {
-                    _carPosition = GetCarPosition(enumerator);
+                    _carPosition = UpdateCarPosition(enumerator);
                     var staircasePosition = GetStaircasePosition(enumerator);
-                    GoStaircase(output, staircasePosition);
-                    GoDown(output);
+                    GoStaircase(_output, staircasePosition);
+                    GoDown(_output);
                     _carPosition = staircasePosition;
-                    _carMoving = true;
                 }
-                else if (NeedGoOut(enumerator.Current))
+                else if (AtGroundFloor(enumerator.Current))
                 {
-                    var position = GetCarPosition(enumerator);
-                    GoEscape(output, position);
+                    _carPosition = UpdateCarPosition(enumerator);
+                    GoEscape(_output, _carPosition);
                 }
             }
-            return output.ToArray();
+            return _output.ToArray();
         }
-        public static void Print2DArray<T>(T[,] matrix)
-        {
-            for (int i = 0; i < matrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < matrix.GetLength(1); j++)
-                {
-                    Console.Write(matrix[i, j] + "\t");
-                }
-                Console.WriteLine();
-            }
-        }
-
+       
         private void GoEscape(List<string> output, int position)
         {
             var move = _parkSize - position - 1;
@@ -87,8 +74,9 @@ namespace CarParkEscape
             return Array.FindIndex(enumerator.Current, x => x == _staircase);
         }
 
-        private int GetCarPosition(List<string[]>.Enumerator enumerator)
+        private int UpdateCarPosition(List<string[]>.Enumerator enumerator)
         {
+            CarMoving = true;
             return Array.FindIndex(enumerator.Current, x => x == _car) == -1
                 ? _carPosition
                 : Array.FindIndex(enumerator.Current, x => x == _car);
@@ -99,7 +87,7 @@ namespace CarParkEscape
             return i > 0 ? "L" : "R";
         }
 
-        private List<string[]> arrayProcesser(int[,] carPark)
+        private List<string[]> ArrayProcessor(int[,] carPark)
         {
             var parkingData = new List<string[]>();
             var tempFloorData = new string[_parkSize];
@@ -121,15 +109,15 @@ namespace CarParkEscape
             return parkingData;
         }
 
-        private bool NeedGoOut(string[] data)
+        private bool AtGroundFloor(string[] data)
         {
             return !data.Contains(_staircase);
         }
 
-        private bool NeedGoDown(string[] data)
+        private bool ShouldGoDown(string[] data)
         {
             return data.Contains(_staircase) &&
-                   (data.Contains(_car) || _carMoving);
+                   (data.Contains(_car) || CarMoving);
         }
     }
 }
