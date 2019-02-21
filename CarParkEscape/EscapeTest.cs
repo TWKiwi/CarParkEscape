@@ -114,5 +114,17 @@ namespace CarParkEscape
             excepted.ShouldEqual(kata.escape(carpark));
         }
 
+        [TestMethod]
+        public void TestFromCodeWars_Ver2()
+        {
+            Kata kata = new Kata();
+            int[,] carpark = new int[,] { { 0, 2, 0, 0, 1 },
+                { 0, 0, 0, 0, 1 },
+                { 0, 0, 0, 0, 1 },
+                { 0, 0, 0, 0, 0 } };
+            var excepted = new[] { "R3", "D3" }.ToExpectedObject();
+            excepted.ShouldEqual(kata.escape(carpark));
+        }
+
     }
 }
