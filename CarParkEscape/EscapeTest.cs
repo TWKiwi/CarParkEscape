@@ -23,5 +23,14 @@ namespace CarParkEscape
             var excepted = new[] { "R3" }.ToExpectedObject();
             excepted.ShouldEqual(result);
         }
+
+        [TestMethod]
+        public void EscapeFromGroundFloor_Ver3()
+        {
+            var result = new Kata().Escape(
+                new[,] { { 1, 0, 0, 0, 0 }, { 0, 2, 0, 0, 0 } });
+            var excepted = new[] { "R3" }.ToExpectedObject();
+            excepted.ShouldEqual(result);
+        }
     }
 }
