@@ -22,11 +22,16 @@ namespace CarParkEscape
                 if (NeedGoDown(enumerator.Current))
                 {
                     // 2樓以上
+                    var carPosition = Array.FindIndex(enumerator.Current, x => x == _car);
+                    var staircasePosition = Array.FindIndex(enumerator.Current, x => x == _staircase);
+                    output.Add($"L{Math.Abs(carPosition - staircasePosition)}");
+                    output.Add($"D1");
                 }
                 else if (NeedGoOut(enumerator.Current))
                 {
                     //出去
                     var position = Array.FindIndex(enumerator.Current, x => x == _car);
+                    position = position == -1 ? 0 : position;
                     output.Add($"R{_parkSize - position - 1}");
                 }
                 // 車不在那層沒有必要做判斷
@@ -58,8 +63,7 @@ namespace CarParkEscape
 
         private bool NeedGoOut(string[] data)
         {
-            return !data.Contains(_staircase) &&
-                   data.Contains(_car);
+            return !data.Contains(_staircase);
         }
 
         private bool NeedGoDown(string[] data)
